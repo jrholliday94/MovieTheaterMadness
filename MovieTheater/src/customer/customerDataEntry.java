@@ -28,6 +28,7 @@ public class customerDataEntry extends JPanel {
 	 * Create the panel.
 	 */
 	public customerDataEntry() {
+		// Layout is absolute
 		setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Customer first name");
@@ -92,7 +93,6 @@ public class customerDataEntry extends JPanel {
 		// REMOVE BELOW WHEN DB IS READY
 		moviePrice.setText("$8.75");
 		// REMOVE ABOVE WHEN DB IS READY
-		
 
 		JLabel lblPaymentMethod = new JLabel("Payment method");
 		lblPaymentMethod.setBounds(10, 176, 123, 14);
@@ -115,8 +115,7 @@ public class customerDataEntry extends JPanel {
 		paymentTotal.setBounds(140, 201, 130, 20);
 		paymentTotal.setBorder(border);
 		add(paymentTotal);
-		
-		
+
 		// REMOVE BELOW WHEN DB IS READY
 		double taxed = 8.75 * 1.06;
 		String taxedString = String.format("%.2f", taxed);
@@ -192,16 +191,12 @@ public class customerDataEntry extends JPanel {
 			// default to G and set no agecap on movie
 			String movieRating = "G";
 			int ageCap = 0;
-			
+
 			// Checking if customer is of age for the movie
 			try {
 				// create our mysql database connection
-				
-				
-				
-				
-				
-				//TODO MAKE THESE CONNECT TO OUR DATABASE
+
+				// TODO MAKE THESE CONNECT TO OUR DATABASE
 				String myDriver = "org.gjt.mm.mysql.Driver";
 				String myUrl = "jdbc:mysql://localhost/test";
 				Class.forName(myDriver);
