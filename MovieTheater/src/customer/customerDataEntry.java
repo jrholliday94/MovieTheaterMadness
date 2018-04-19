@@ -186,7 +186,7 @@ public class customerDataEntry extends JPanel {
 		 * automatically retrieved from DB based on movie and discount if applicable
 		 */
 
-		// If formatting is correct in fields create customer object
+		// If formatting is correct retreive movie rating from DB
 		if (correct) {
 			// default to G and set no agecap on movie
 			String movieRating = "G";
@@ -240,6 +240,7 @@ public class customerDataEntry extends JPanel {
 				break;
 			}
 
+			// If customer is of age create customer object
 			if (age >= ageCap) {
 				Customer myCustomer = new Customer(fName, lName, age, movieName, movieTime, paymentMethod, 8.50);
 			} else {
