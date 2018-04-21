@@ -13,12 +13,19 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ItemEvent;
 
+@SuppressWarnings("serial")
 public class customerDataEntry extends JPanel {
+	// text box fields
 	private JTextField customerFirstName;
 	private JTextField customerLastName;
 	private JTextField customerAge;
+	final double TAX_RATE = 1.06;
 
 	/**
 	 * Create the panel.
@@ -34,7 +41,6 @@ public class customerDataEntry extends JPanel {
 		customerFirstName.setBounds(140, 5, 130, 20);
 		customerFirstName.setColumns(10);
 		add(customerFirstName);
-		
 
 		JLabel lblCustomerLastName = new JLabel("Customer last name");
 		lblCustomerLastName.setBounds(10, 36, 123, 14);
@@ -64,14 +70,6 @@ public class customerDataEntry extends JPanel {
 
 		Choice movieTime = new Choice();
 		movieTime.setBounds(140, 117, 130, 20);
-
-		// REMOVE BELOW WHEN DB IS READY
-
-		movieTime.add("2:45 Testing purposes only. Remove when DB ready.");
-		movieTime.add("4:20 Testing purposes only. Remove when DB ready.");
-
-		// REMOVE ABOVE WHEN DB IS READY
-
 		add(movieTime);
 
 		JLabel lblMoviePrice = new JLabel("Movie Price");
@@ -81,18 +79,10 @@ public class customerDataEntry extends JPanel {
 		JLabel moviePrice = new JLabel();
 		moviePrice.setToolTipText("Price of the movie");
 		moviePrice.setBounds(140, 145, 130, 20);
-		//Border creates a visual unclickable field
+		// Border creates a visual unclickable field
 		Border border = BorderFactory.createLineBorder(Color.black, 1);
 		moviePrice.setBorder(border);
 		add(moviePrice);
-		
-		// REMOVE BELOW WHEN DB IS READY
-		moviePrice.setText("$8.75");
-
-		double taxed = 8.75 * 1.06;
-		String taxedString = String.format("%.2f", taxed);
-		paymentTotal.setText(taxedString);
-		// REMOVE ABOVE WHEN DB IS READY
 
 		JLabel lblPaymentMethod = new JLabel("Payment method");
 		lblPaymentMethod.setBounds(10, 176, 123, 14);
@@ -120,25 +110,104 @@ public class customerDataEntry extends JPanel {
 		Choice movieName = new Choice();
 		movieName.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				// TODO change price via getting DB price per movie
 
-				// REMOVE BELOW WHEN DB IS READY
-				moviePrice.setText("$8.75");
+				String selectedMovie = movieName.getSelectedItem();
+				String selectedMovieTime = movieTime.getSelectedItem();
+				String selectedMoviePrice = "";
+				String selectedMovieShowtime = "";
+				try {
+					// create our mysql database connection
 
-				double taxed = 8.75 * 1.06;
-				String taxedString = String.format("%.2f", taxed);
+					// TODO MAKE THESE CONNECT TO OUR DATABASE
+					String myDriver = "org.gjt.mm.mysql.Driver";
+					String myUrl = "jdbc:mysql://localhost/test";
+					Class.forName(myDriver);
+					Connection conn = DriverManager.getConnection(myUrl, "root", "");
+
+					// Select showtime from movie DB
+					String query = "SELECT showtime FROM movies WHERE movie_name LIKE " + selectedMovie;
+					Statement st = conn.createStatement();
+
+					// execute the query, and get a java resultset
+					ResultSet rs = st.executeQuery(query);
+
+					// iterate through the java resultset and setting showtime
+					movieTime.removeAll();
+					while (rs.next()) {
+						selectedMovieShowtime = rs.getString("showtime");
+						movieTime.add(selectedMovieShowtime);
+					}
+
+					// select movieprice from database where moviename is name entered in field and
+					// movetime is selected time
+					query = "SELECT movieprice FROM movies WHERE movie_name LIKE " + selectedMovie
+							+ " AND showtime LIKE " + selectedMovieTime;
+					st = conn.createStatement();
+
+					// execute the query, and get a java resultset
+					rs = st.executeQuery(query);
+
+					// iterate through the java resultset
+					while (rs.next()) {
+						selectedMoviePrice = rs.getString("movieprice");
+					}
+
+					st.close();
+
+				} catch (Exception e) {
+					System.err.println("Got an exception! ");
+					System.err.println(e.getMessage());
+				}
+
+				double parsedPrice = 0;
+				try {
+					parsedPrice = Double.parseDouble(selectedMoviePrice);
+				} catch (NumberFormatException e) {
+					System.out.println("Error");
+					String message = "Price not found. Defaulting to $8.50";
+					JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
+					parsedPrice = 8.50;
+				}
+
+				// Setting base movie price
+				String untaxedString = String.format("%.2f", parsedPrice);
+				moviePrice.setText(untaxedString);
+
+				// Setting taxed movie price
+				parsedPrice = parsedPrice * TAX_RATE;
+				String taxedString = String.format("%.2f", parsedPrice);
 				paymentTotal.setText(taxedString);
-				// REMOVE ABOVE WHEN DB IS READY
+
 			}
 		});
 		movieName.setBounds(140, 89, 130, 20);
 
-		// REMOVE BELOW WHEN DB IS READY
+		try {
+			// create our mysql database connection
 
-		movieName.add("Testing purposes only. Remove when DB ready.");
-		movieName.add("Black Panther");
+			// TODO MAKE THESE CONNECT TO OUR DATABASE
+			String myDriver = "org.gjt.mm.mysql.Driver";
+			String myUrl = "jdbc:mysql://localhost/test";
+			Class.forName(myDriver);
+			Connection conn = DriverManager.getConnection(myUrl, "root", "");
 
-		// REMOVE ABOVE WHEN DB IS READY
+			// select movie_name from database
+			String query = "SELECT movie_name FROM movies";
+			Statement st = conn.createStatement();
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			while (rs.next()) {
+				// add movie name to choice box
+				movieName.add(rs.getString("movie_name"));
+			}
+			st.close();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
 
 		add(movieName);
 
@@ -147,7 +216,8 @@ public class customerDataEntry extends JPanel {
 		btnAccept.setBounds(164, 232, 86, 23);
 		btnAccept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getInput(movieName.getSelectedItem(), movieTime.getSelectedItem(), paymentMethod.getSelectedItem());
+				getInput(movieName.getSelectedItem(), movieTime.getSelectedItem(), paymentMethod.getSelectedItem(),
+						moviePrice.getText());
 			}
 		});
 
@@ -155,11 +225,13 @@ public class customerDataEntry extends JPanel {
 
 	}
 
-	public void getInput(String customerMovieName, String customerMovieTime, String customerPaymentMethod) {
+	public void getInput(String customerMovieName, String customerMovieTime, String customerPaymentMethod,
+			String customerMoviePrice) {
 		boolean correct = true;
 		String fName = customerFirstName.getText();
 		String lName = customerLastName.getText();
 		int age = 0;
+		double moviePrice = 0;
 
 		// parse age, don't create object if not an int
 		try {
@@ -174,17 +246,81 @@ public class customerDataEntry extends JPanel {
 		String movieTime = customerMovieTime;
 		String paymentMethod = customerPaymentMethod;
 
-		/*
-		 * TODO Movie name - retrieve list of movie names from DB and they will be in
-		 * the dropdown for user to choose Movie time - same as above Movie price -
-		 * automatically retrieved from DB based on movie and discount if applicable
-		 */
-
-		// If formatting is correct in fields create customer object
-		if (correct) {
-			Customer myCustomer = new Customer(fName, lName, age, movieName, movieTime, paymentMethod, 8.50);
-			System.out.println(myCustomer.toString());
+		// Parse passed movieprice
+		try {
+			moviePrice = Double.parseDouble(customerMoviePrice);
+		} catch (NumberFormatException e) {
+			System.out.println("Error");
+			String message = "Price not found";
+			JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
+			correct = false;
 		}
 
+		// If formatting is correct in fields attempt to get age limitation from movie
+		// rating
+		if (correct) {
+			// default to G and set no agecap on movie
+			String movieRating = "G";
+			int ageCap = 0;
+
+			// Checking if customer is of age for the movie
+			try {
+				// create our mysql database connection
+
+				// TODO MAKE THESE CONNECT TO OUR DATABASE
+				String myDriver = "org.gjt.mm.mysql.Driver";
+				String myUrl = "jdbc:mysql://localhost/test";
+				Class.forName(myDriver);
+				Connection conn = DriverManager.getConnection(myUrl, "root", "");
+
+				// select movierating from database where moviename is name entered in field
+				String query = "SELECT rating FROM movies WHERE movie_name LIKE " + movieName;
+				Statement st = conn.createStatement();
+
+				// execute the query, and get a java resultset
+				ResultSet rs = st.executeQuery(query);
+
+				// iterate through the java resultset
+				while (rs.next()) {
+					movieRating = rs.getString("movierating");
+				}
+				st.close();
+			} catch (Exception e) {
+				System.err.println("Got an exception! ");
+				System.err.println(e.getMessage());
+			}
+
+			// Check movie rating and make agecap based off the rating
+			switch (movieRating.toUpperCase()) {
+			case "G":
+				ageCap = 0;
+				break;
+			case "PG":
+				ageCap = 3;
+				break;
+			case "PG-13":
+				ageCap = 13;
+				break;
+			case "R":
+				ageCap = 17;
+				break;
+			case "NC-17":
+				ageCap = 18;
+				break;
+			default:
+				break;
+			}
+
+			// If customer is of age create customer object and print details
+			if (age >= ageCap) {
+				Customer myCustomer = new Customer(fName, lName, age, movieName, movieTime, paymentMethod, moviePrice);
+				myCustomer.toString();
+			} else {
+				System.out.println("Error");
+				String message = "This customer is too young to view this movie. Please decline the sale.";
+				JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
+			}
+
+		}
 	}
 }
