@@ -15,10 +15,10 @@ public class ListCredsHelper {
 		emfactory.close();
 	}
 
-	public void insertAccessCode(ListCreds li){
+	public void insertAccessCode(ListCreds lc){
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(li);
+		em.persist(lc);
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -27,7 +27,7 @@ public class ListCredsHelper {
 		// TODO Auto-generated method stub
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<ListCreds> typedQuery = em.createQuery("select li from ListCreds li where li.username = :selectedUserName", ListCreds.class);
+		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc where lc.username = :selectedUserName", ListCreds.class);
 		typedQuery.setParameter("selectedUserName", toDelete.getUserName());
 		typedQuery.setMaxResults(1);
 		ListCreds result = typedQuery.getSingleResult();
@@ -40,7 +40,7 @@ public class ListCredsHelper {
 		// TODO Auto-generated method stub
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<ListCreds> typedQuery = em.createQuery("select li from ListCreds li where li.username = :selectedUserName", ListCreds.class);
+		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc where lc.username = :selectedUserName", ListCreds.class);
 		typedQuery.setParameter("selectedUserName", usernameName);
      	List<ListCreds> foundAccessCodes = typedQuery.getResultList();
 		em.close();
@@ -52,7 +52,7 @@ public class ListCredsHelper {
 		// TODO Auto-generated method stub
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<ListCreds> typedQuery = em.createQuery("select li from ListCreds li where li.role = :selectedRole", ListCreds.class);
+		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc where lc.role = :selectedRole", ListCreds.class);
 		typedQuery.setParameter("selectedRole", RoleName);
 		List<ListCreds> foundRole = typedQuery.getResultList();
 		em.close();
@@ -69,11 +69,25 @@ public class ListCredsHelper {
 
 	}
 
+	public List<ListCreds> searchAnAccessCode(String usernameName) {
+		// TODO Auto-generated method stub
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+//		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc where lc.username = :selectedUserName", ListCreds.class);
+		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc where lc.username = :selectedUserName", ListCreds.class);
+		typedQuery.setParameter("selectedUserName", usernameName);
+     	List<ListCreds> foundAccessCodes = typedQuery.getResultList();
+     	em.close();
+     	return foundAccessCodes;
+	
+	}
+
+	
 	public List<ListCreds> showAllItems(){
 
 		EntityManager em = emfactory.createEntityManager();
 
-		TypedQuery<ListCreds> typedQuery = em.createQuery("select li from ListCreds li", ListCreds.class);
+		TypedQuery<ListCreds> typedQuery = em.createQuery("select lc from ListCreds lc", ListCreds.class);
 
 		List<ListCreds> allItems = typedQuery.getResultList();
 
