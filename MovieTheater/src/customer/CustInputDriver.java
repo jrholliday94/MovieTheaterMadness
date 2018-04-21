@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 public class CustInputDriver {
 	public static void main(String[] args) {
 
-		// Testing purposes only
-		// Create frame
 		JFrame frame = new JFrame("Input customer information");
 		JPanel panel = new customerDataEntry();
 
