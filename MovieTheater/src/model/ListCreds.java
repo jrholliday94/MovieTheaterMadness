@@ -113,8 +113,21 @@ public class ListCreds {
 
 	}
 
+	public String returnUsername() {
 
+		return username;
 
+	}
 
+	public String returnPassword() {
+
+		return accesscode;
+
+	}
+	public String returnRole() {
+
+		return role;
+
+	}
 
 }

@@ -23,13 +23,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controller.ListCredsHelper;
+import customer.CustInputDriver;
 import model.ListCreds;
 
 public class StartProgram {
 
 		static Scanner in = new Scanner(System.in);
-		static ListCredsHelper lih = new ListCredsHelper();
-
+		static ListCredsHelper lch = new ListCredsHelper();
 		public static void runMenu() {
 			boolean goAgain = true;
 			System.out.println("--- Admin Rights Menu ---");
@@ -53,7 +53,7 @@ public class StartProgram {
 				} else if (selection == 4) {
 					viewTheList();
 				} else {
-					lih.cleanUp();
+					lch.cleanUp();
 					System.out.println("   Goodbye!   ");
 					goAgain = false;
 				}
@@ -69,7 +69,7 @@ public class StartProgram {
 			System.out.print("Enter a role (ADMIN, EMPLOYEE or MANAGER): ");
 			String role = in.nextLine();
 			ListCreds toAdd = new ListCreds(username, accesscode, role);
-			lih.insertAccessCode(toAdd);
+			lch.insertAccessCode(toAdd);
 		}
 
 		private static void editAnAccessCode() {
@@ -84,11 +84,11 @@ public class StartProgram {
 			if (searchBy == 1) {
 				System.out.print("Enter the username: ");
 				String UserNameName = in.nextLine();
-				foundAccessCodes = lih.searchForAccessCodeByUsername(UserNameName);
+				foundAccessCodes = lch.searchForAccessCodeByUsername(UserNameName);
 			} else if (searchBy ==2) {
 				System.out.print("Enter the role: ");
 			    String RoleName = in.nextLine();
-			    foundAccessCodes = lih.searchForAccessCodeByRole(RoleName);
+			    foundAccessCodes = lch.searchForAccessCodeByRole(RoleName);
 			} 
 			
 			if (!foundAccessCodes.isEmpty()) {
@@ -100,7 +100,7 @@ public class StartProgram {
 				System.out.print("Which ID to edit: ");
 				int idToEdit = in.nextInt();
 
-				ListCreds toEdit = lih.searchForAccessCodeById(idToEdit);
+				ListCreds toEdit = lch.searchForAccessCodeById(idToEdit);
 				System.out.println("Retrieved " + toEdit.getId() + " from " + toEdit.getUserName());
 				System.out.println("1 : Update username");
 				System.out.println("2 : Update password");
@@ -121,7 +121,7 @@ public class StartProgram {
 					String newRole = in.nextLine();
 					toEdit.setRole(newRole);
 				}	
-				lih.updateAccessCode(toEdit);
+				lch.updateAccessCode(toEdit);
 			} else {
 				System.out.println("---- No results found");
 			       }
@@ -138,7 +138,7 @@ public class StartProgram {
 			String role = "delete";
 			ListCreds toDelete = new ListCreds(username, accesscode, role);
 
-			lih.deleteAccessCode(toDelete);
+			lch.deleteAccessCode(toDelete);
 		}
 		
 		public static void main(String[] args) {
@@ -185,26 +185,51 @@ public class StartProgram {
 			panel.add(loginButton);
 			
 			ActionListener loginButtonListener = new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					runMenu();
-				}
-			};
-			
-			loginButton.addActionListener(loginButtonListener);	
-			
-		}		
+			public void actionPerformed(ActionEvent e) {
+				char[] password = passwordText.getPassword();
+		    	String passwordString = new String(password);
+		    	String user = userText.getText();
+		       	searchAnAccessCode(user, passwordString);
+		    	
+			}
+		    };
+ 			loginButton.addActionListener(loginButtonListener);
+ 		
+			}  	
+	
+			private static void searchAnAccessCode(String user, String passwordString) {
+				// TODO Auto-generated method stub
+				
+				List<ListCreds> foundAccessCodes = null;
+				
+				String UserNameName = user;
+				foundAccessCodes = lch.searchAnAccessCode(UserNameName);
+				if (!foundAccessCodes.isEmpty()) {
+	 			    for (ListCreds l : foundAccessCodes) {
+						String role = l.returnRole();
+			       	    String emprole = "EMPLOYEE";
+				     	String mgrrole = "MANAGER";
+				    	String admrole = "ADMIN";
+				    					    	
+				    	if(role.equals(emprole))
+				    		CustInputDriver.main(null);
+		      		  	if(role.equals(mgrrole))
+			      		    System.out.println("Hey its a  MANAGER ROLE!!!");
+				    	if(role.equals(admrole))
+				    		runMenu();
+					}
+				 }
+			}
 		
 		
 
 		private static void viewTheList() {
 			// TODO Auto-generated method stub
-			List<ListCreds> allItems = lih.showAllItems();
+			List<ListCreds> allItems = lch.showAllItems();
 			for(ListCreds l : allItems){
 				System.out.println(l.returnAccessCodeDetails());
 		  }
 
+		}		
 			
-			
-			
-		}
 	}
