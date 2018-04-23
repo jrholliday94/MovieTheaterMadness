@@ -21,11 +21,14 @@ import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class customerDataEntry extends JPanel {
-	// text box fields
+	final double TAX_RATE = 1.06;
 	private JTextField customerFirstName;
 	private JTextField customerLastName;
 	private JTextField customerAge;
-	final double TAX_RATE = 1.06;
+
+	// Below should match persistence.xml
+	final private String databaseUserName = "root";
+	final private String databasePassword = "";
 
 	/**
 	 * Create the panel.
@@ -120,13 +123,15 @@ public class customerDataEntry extends JPanel {
 
 					// TODO MAKE THESE CONNECT TO OUR DATABASE
 					String myDriver = "org.gjt.mm.mysql.Driver";
-					String myUrl = "jdbc:mysql://localhost/test";
+					String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
 					Class.forName(myDriver);
-					Connection conn = DriverManager.getConnection(myUrl, "root", "");
+					Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
 					// Select showtime from movie DB
-					String query = "SELECT showtime FROM movies WHERE movie_name LIKE " + selectedMovie;
+					String query = "SELECT showtime FROM movies WHERE movie_name LIKE " + "\"" + selectedMovie + "\"";
 					Statement st = conn.createStatement();
+
+					System.out.println(query);
 
 					// execute the query, and get a java resultset
 					ResultSet rs = st.executeQuery(query);
@@ -140,7 +145,7 @@ public class customerDataEntry extends JPanel {
 
 					// select movieprice from database where moviename is name entered in field and
 					// movetime is selected time
-					query = "SELECT movieprice FROM movies WHERE movie_name LIKE " + selectedMovie
+					query = "SELECT movieprice FROM movies WHERE movie_name LIKE " + "\"" + selectedMovie + "\""
 							+ " AND showtime LIKE " + selectedMovieTime;
 					st = conn.createStatement();
 
@@ -187,9 +192,9 @@ public class customerDataEntry extends JPanel {
 
 			// TODO MAKE THESE CONNECT TO OUR DATABASE
 			String myDriver = "org.gjt.mm.mysql.Driver";
-			String myUrl = "jdbc:mysql://localhost/test";
+			String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
 			Class.forName(myDriver);
-			Connection conn = DriverManager.getConnection(myUrl, "root", "");
+			Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
 			// select movie_name from database
 			String query = "SELECT movie_name FROM movies";
@@ -269,12 +274,12 @@ public class customerDataEntry extends JPanel {
 
 				// TODO MAKE THESE CONNECT TO OUR DATABASE
 				String myDriver = "org.gjt.mm.mysql.Driver";
-				String myUrl = "jdbc:mysql://localhost/test";
+				String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
 				Class.forName(myDriver);
-				Connection conn = DriverManager.getConnection(myUrl, "root", "");
+				Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
 				// select movierating from database where moviename is name entered in field
-				String query = "SELECT rating FROM movies WHERE movie_name LIKE " + movieName;
+				String query = "SELECT rating FROM movies WHERE movie_name LIKE " + "\"" + movieName + "\"";
 				Statement st = conn.createStatement();
 
 				// execute the query, and get a java resultset
@@ -282,7 +287,7 @@ public class customerDataEntry extends JPanel {
 
 				// iterate through the java resultset
 				while (rs.next()) {
-					movieRating = rs.getString("movierating");
+					movieRating = rs.getString("rating");
 				}
 				st.close();
 			} catch (Exception e) {
