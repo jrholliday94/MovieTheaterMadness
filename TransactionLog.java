@@ -169,6 +169,7 @@ public void Show_Customers_in_JTable()
         model.addRow(row);
        
     }
+
 }
 
 public void executeSQLQuery(String query, String message){
@@ -259,6 +260,10 @@ public void executeSQLQuery(String query, String message){
         jLabel11.setText("Gift Card ID");
 
         jtext_age.setText("0");
+
+        jtext_mprice.setText("0");
+
+        jtext_total.setText("0");
 
         jtext_gcid.setText("0");
 
@@ -390,19 +395,30 @@ public void executeSQLQuery(String query, String message){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
     private void jbutton_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutton_insertActionPerformed
         String query = "INSERT INTO `customer`(`fname`, `lname`, `age`, `movie_name`, `movie_time`, `movie_price`, `payment_method`, `transaction_total`, `gc_bal`, `gc_id`) VALUES ('"+jtext_fname.getText()+"','"+jtext_lname.getText()+"','"+jtext_age.getText()+"','"+jtext_moviename.getText()+"','"+jtext_mtime.getText()+"','"+jtext_mprice.getText()+"','"+jtext_paymethod.getText()+"','"+jtext_total.getText()+"','"+jtext_gcbal.getText()+"','"+jtext_gcid.getText()+"')";
         
         executeSQLQuery(query, "Transaction Successful");
+
+         DefaultTableModel model = (DefaultTableModel)jTable_Customers.getModel();
+         model.setRowCount(0);
+         Show_Customers_in_JTable();
+
     }//GEN-LAST:event_jbutton_insertActionPerformed
 
     private void jbutton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutton_updateActionPerformed
         // TODO add your handling code here:
-        String query;
-            query = "UPDATE `customer` SET `fname`="+jtext_fname.getText()+",`lname`="+jtext_lname.getText()+",`age`="+jtext_age.getText()+",`movie_name`="+jtext_moviename.getText()+",`movie_time`="+jtext_mtime.getText()+",`movie_price`="+jtext_mprice.getText()+",`payment_method`="+jtext_paymethod.getText()+",`transaction_total`="+jtext_total.getText()+",`order_id`="+jtext_orderid.getText()+",`gc_bal`="+jtext_gcbal.getText()+",`gc_id`="+jtext_gcid.getText()+" WHERE order_id = '"+jtext_orderid.getText()+"'";
+  
         
+        String query;
+        query = "UPDATE `customer` SET `fname`='"+jtext_fname.getText()+"',`lname`='"+jtext_lname.getText()+"',`age`='"+jtext_age.getText()+"',`movie_name`='"+jtext_moviename.getText()+"',`movie_time`='"+jtext_mtime.getText()+"',`movie_price`='"+jtext_mprice.getText()+"',`payment_method`='"+jtext_paymethod.getText()+"',`transaction_total`='"+jtext_total.getText()+"',`order_id`='"+jtext_orderid.getText()+"',`gc_bal`='"+jtext_gcbal.getText()+"',`gc_id`='"+jtext_gcid.getText()+"' WHERE order_id = '"+jtext_orderid.getText()+"'";
         executeSQLQuery(query, "Transaction Updated");
+        
+        DefaultTableModel model = (DefaultTableModel)jTable_Customers.getModel();
+         model.setRowCount(0);
+         Show_Customers_in_JTable();
+           
+    
     }//GEN-LAST:event_jbutton_updateActionPerformed
 
     private void jbutton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutton_deleteActionPerformed
@@ -411,7 +427,9 @@ public void executeSQLQuery(String query, String message){
             query = "DELETE FROM `customer` WHERE order_id = '"+jtext_orderid.getText()+"'";
         
         executeSQLQuery(query, "Transaction Removed");
-        
+        DefaultTableModel model = (DefaultTableModel)jTable_Customers.getModel();
+         model.setRowCount(0);
+         Show_Customers_in_JTable();
     }//GEN-LAST:event_jbutton_deleteActionPerformed
 
     private void jTable_CustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_CustomersMouseClicked
