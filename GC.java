@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package giftcard;
 
 import java.awt.HeadlessException;
@@ -11,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,8 +16,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GC extends javax.swing.JFrame {
         Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
     /**
      * Creates new form GC
      */
@@ -120,26 +114,36 @@ public class GC extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+public Connection getConnection()
+{
+    Connection con;
+    try{
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mtm?useSSL=false","root","");
+        return con;
+       
+    }catch (SQLException e){
+        e.printStackTrace();
+        return null;
+    }
+}
+    public void executeSQLQuery(String query, String message){
+    
+    Connection con = getConnection();
+    Statement st;
+    try{
+        st = con.createStatement();
+        if((st.executeUpdate(query)) == 1)
+        {
+        }
+    }catch(Exception ex){
+        ex.printStackTrace();
+    }
+}
     private void purchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseActionPerformed
         // TODO add your handling code here:
-       try{ 
-        String sql = "INSERT INTO customer"
-                +"(transaction_total, gc_bal, gc_id)"
-                +"VALUES (?,?,?)";
-        con = DriverManager.getConnection("jdbc:mysql://localhost/customer", "root", "");
-        pst = con.prepareStatement(sql);
-        pst.setString(1,jTextField_transtotal.getText());
-        pst.setString(1,jTextField_gcbal.getText());
-        pst.setString(1,jTextField_gcid.getText());
-        JOptionPane.showMessageDialog(null, "Giftcard Purchase Complete");
-           
-
-       }
-       catch(SQLException | HeadlessException ex){
-         
-           JOptionPane.showMessageDialog(null, ex);
-       }
+      String query = "INSERT INTO `customer`(`transaction_total`, `gc_bal`, `gc_id`) VALUES ('"+jTextField_transtotal.getText()+"','"+jTextField_gcbal.getText()+"','"+jTextField_gcid.getText()+"')";
+        
+        executeSQLQuery(query, "Transaction Successful");
     }//GEN-LAST:event_purchaseActionPerformed
 
     /**
