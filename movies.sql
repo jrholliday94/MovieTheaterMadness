@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `length` int(3) NOT NULL,
   `rating` varchar(5) NOT NULL,
   `showtime` time NOT NULL,
+  `price` varchar(4) NOT NULL,
   PRIMARY KEY (`movie_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -29,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `movies` (
 -- Dumping data for table `movies`
 --
 
-INSERT INTO `movies` (`movie_name`, `length`, `rating`, `showtime`) VALUES
-('Ready Player One', 138, 'PG-13', '12:00:00');
+INSERT INTO `movies` (`movie_name`, `length`, `rating`, `showtime`, `price`) VALUES
+('Ready Player One', 138, 'PG-13', '12:00:00','8.50'),('Black Panther', 135, 'PG-13', '2:00:00','9.00'),('I Feel Pretty',110,'PG-13','8:00:00','12.50');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
