@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `length` int(3) NOT NULL,
   `rating` varchar(5) NOT NULL,
   `showtime` time NOT NULL,
-  `price` varchar(4) NOT NULL,
+  `price` varchar(10) NOT NULL,
   PRIMARY KEY (`movie_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
