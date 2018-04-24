@@ -115,7 +115,6 @@ public class customerDataEntry extends JPanel {
 			public void itemStateChanged(ItemEvent arg0) {
 
 				String selectedMovie = movieName.getSelectedItem();
-				String selectedMovieTime = movieTime.getSelectedItem();
 				String selectedMoviePrice = "";
 				String selectedMovieShowtime = "";
 				try {
@@ -251,7 +250,7 @@ public class customerDataEntry extends JPanel {
 
 		// Parse passed movieprice
 		try {
-			moviePrice = Double.parseDouble(customerMoviePrice);
+			moviePrice = Double.parseDouble(customerMoviePrice.substring(1));
 		} catch (NumberFormatException e) {
 			System.out.println("Error");
 			String message = "Price not found";
