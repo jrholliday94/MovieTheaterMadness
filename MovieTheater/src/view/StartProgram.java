@@ -51,11 +51,6 @@ public class StartProgram {
 
 			frame.setVisible(true);
 			
-			
-			
-			
-			
-			
 			System.out.println("--- Admin Rights Menu ---");
 
 			while (goAgain) {
