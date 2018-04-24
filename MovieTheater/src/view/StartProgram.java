@@ -1,13 +1,3 @@
-// Joe Fazio
-// 4/18/18
-// This program was modified from the Console Shopping project from the course.  I felt that was a 
-// Good starting program to help with persisting to the database and being able to apply CRUD techniques
-// with creating, reading, updating and deleting permissions that i would access later with a screen.
-// This program just displays the menu item regardless the username and password entered.  Next is to 
-// Take that username and password to look up the role and then route the user to the appropriate 
-// function per their role.  This program defaults to ADMIN and shows a screen that only the ADMIN role
-// will have access to.  For this program to work, the credentials table will need to be built from the specs in the repo
-
 package view;
 
 import java.awt.event.ActionEvent;
@@ -26,12 +16,41 @@ import controller.ListCredsHelper;
 import customer.CustInputDriver;
 import model.ListCreds;
 
+/*
+ * Joe Fazio
+ * 4/18/18
+ * This program was modified from the Console Shopping project from the course.  I felt that was a 
+ * Good starting program to help with persisting to the database and being able to apply CRUD techniques
+ * with creating, reading, updating and deleting permissions that i would access later with a screen.
+ * This program just displays the menu item regardless the username and password entered.  Next is to 
+ * Take that username and password to look up the role and then route the user to the appropriate 
+ * function per their role.  For this program to work, the credentials table will need to be built from the 
+ * specs in the repo and all the additional methods and associated tables to those methods will need to be created.
+ */
+
+
+/*
+ * This is the admin panel.  It gives a menu that allows the administrator to create credentials
+ * for whatever assess we want the user to have.		
+ */
+
 public class StartProgram {
 
 		static Scanner in = new Scanner(System.in);
 		static ListCredsHelper lch = new ListCredsHelper();
 		public static void runMenu() {
 			boolean goAgain = true;
+			
+			JFrame frame = new JFrame("Admin Console");
+			frame.setSize(300, 150);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			JPanel panel = new JPanel();
+			frame.add(panel);
+			placeComponents(panel);
+
+			frame.setVisible(true);
+			
 			System.out.println("--- Admin Rights Menu ---");
 
 			while (goAgain) {
@@ -53,15 +72,21 @@ public class StartProgram {
 				} else if (selection == 4) {
 					viewTheList();
 				} else {
-					lch.cleanUp();
-					System.out.println("   Goodbye!   ");
+					System.out.println("   Logging out.  Returning to main login.   ");
+	 				int iteration = 0;			//  Since we already have a login box, we pass a 0 so we don't create another login box.
+	 				runLoginView(iteration);
 					goAgain = false;
 				}
 			}
 		}
 
-		private static void addAnAccessCode() {
-			// TODO Auto-generated method stub
+		
+		/*
+		 * The next series of methods uses the input from the admin panel to invoke methods
+		 * from the ListCredsHelper Class that will perform the particular features that 
+		 * the admin panel lists.
+		 */
+		private static void addAnAccessCode() {			//  Adds a username, password and role
 			System.out.print("Enter a username: ");
 			String username = in.nextLine();
 			System.out.print("Enter a password: ");
@@ -72,7 +97,7 @@ public class StartProgram {
 			lch.insertAccessCode(toAdd);
 		}
 
-		private static void editAnAccessCode() {
+		private static void editAnAccessCode() {		//  Edits and existing username, password or role
 			// TODO Auto-generated method stub
 			System.out.println("How would you like to search? ");
 			System.out.println("1 : Search by username");
@@ -127,9 +152,7 @@ public class StartProgram {
 			       }
 			}
 		    
-			
-		
-		private static void deleteAnAccessCode() {
+		private static void deleteAnAccessCode() {			// Deletes a users credentials.
 
 			// TODO Auto-generated method stub
 			System.out.print("Enter the username to delete: ");
@@ -141,14 +164,16 @@ public class StartProgram {
 			lch.deleteAccessCode(toDelete);
 		}
 		
-		public static void main(String[] args) {
-			// TODO Auto-generated method stub
-			runLoginView();
-		}
+		/*
+		 * This method will create the initial username and password box that controls the routing of 
+		 * where the program will go based on the information returned after the username and password 
+		 * has been entered.
+		 * 
+		 */
 
-
-		private static void runLoginView() {
+		private static void runLoginView(int iteration) {
 			// TODO Auto-generated method stub
+			if (iteration == 1) {	// 1 means first time program is invoked.  We only want to create the signon frame once per session.
 			JFrame frame = new JFrame("Movie Madness!!!");
 			frame.setSize(300, 150);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -158,6 +183,8 @@ public class StartProgram {
 			placeComponents(panel);
 
 			frame.setVisible(true);
+			}
+			
 		}
 
 		private static void placeComponents(JPanel panel) {
@@ -180,23 +207,40 @@ public class StartProgram {
 			passwordText.setBounds(100, 40, 160, 25);
 			panel.add(passwordText);
 
-			JButton loginButton = new JButton("login");
+			final JButton loginButton = new JButton("login");
 			loginButton.setBounds(10, 80, 80, 25);
 			panel.add(loginButton);
 			
-			ActionListener loginButtonListener = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				char[] password = passwordText.getPassword();
-		    	String passwordString = new String(password);
-		    	String user = userText.getText();
-		       	searchAnAccessCode(user, passwordString);
+			/*
+			 * This listener will call functionality to create a string out of the password
+			 * and use the username entered as well as the password to call the searchAnAccessCode
+			 * method to retrieve user credentials.  I had to create the string from password
+			 * because the password was not initially a string after coming back from the 
+			 * entry box.  So it would not match the password stored in the credentials 
+			 * table in the movie madness database.
+			 */
+			
+		 	loginButton.addActionListener(new ActionListener() {
+		 	@Override
+		 	public void actionPerformed(ActionEvent e) {
+		 		System.out.println("login button pressed");			
+			//		panel.setVisible(false);
+    	  		char[] password = passwordText.getPassword();
+		      	String passwordString = new String(password);
+		      	String user = userText.getText();
+		      	searchAnAccessCode(user, passwordString);  // calls method to determine what role the user has access to
 		    	
-			}
-		    };
- 			loginButton.addActionListener(loginButtonListener);
- 		
-			}  	
+		 		}
+ 		    });
+		 }
 	
+		/*
+		 * This method accepts the username and password entered from the initial signon box.
+		 * It calls a method in the ListCredsHelper method that will search the database 
+		 * and return the role information back to this class/method.  Once the data comes back
+		 * This method will route the user to the appropriate method to give them access to whatever
+		 * functionality their username/password and role gives them.
+		 */
 			private static void searchAnAccessCode(String user, String passwordString) {
 				// TODO Auto-generated method stub
 				
@@ -207,23 +251,29 @@ public class StartProgram {
 				if (!foundAccessCodes.isEmpty()) {
 	 			    for (ListCreds l : foundAccessCodes) {
 						String role = l.returnRole();
-			       	    String emprole = "EMPLOYEE";
+			       	    String emprole = "EMPLOYEE"; 
 				     	String mgrrole = "MANAGER";
 				    	String admrole = "ADMIN";
 				    					    	
+				    	
+				    	/*
+				    	 * Depending on the role the user has, this method will call the
+				    	 * appropriate method for that access.
+				    	 */
 				    	if(role.equals(emprole))
 				    		CustInputDriver.main(null);
 		      		  	if(role.equals(mgrrole))
 			      		    System.out.println("Hey its a  MANAGER ROLE!!!");
 				    	if(role.equals(admrole))
-				    		runMenu();
+				    		runMenu();				//  This calls the admin panel which allows more roles as well
+				    								//  as usernames and passwords to be entered.
 					}
 				 }
 			}
 		
 		
 
-		private static void viewTheList() {
+		private static void viewTheList() {			//  Creates a list of all the credentials specified.
 			// TODO Auto-generated method stub
 			List<ListCreds> allItems = lch.showAllItems();
 			for(ListCreds l : allItems){
@@ -231,5 +281,15 @@ public class StartProgram {
 		  }
 
 		}		
+
+		
+		/*
+		 * This is the main method.  Invoking this is the beginning of the movie madnesss project.
+		 */
+		public static void main(String[] args) {
+			int iteration = 1;		 //  initially iteration starts at 1.  This tells the loginView method that it is the first time through.
+			runLoginView(iteration); //  calls method to create a username and password input box.
+		}
+
 			
 	}
