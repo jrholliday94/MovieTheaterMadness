@@ -7,6 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * Joe Fazio
+ * 4/18/18
+ * Creates the persistence to the credentials database. Also holds the getters/setters for the 
+ * credentials database.
+ */
+
+
 @Entity
 
 @Table(name="credentials")

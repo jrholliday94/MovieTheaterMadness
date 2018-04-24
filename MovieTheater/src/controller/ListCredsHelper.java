@@ -7,6 +7,14 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import model.ListCreds;
 
+/*
+ * Joe Fazio
+ * 4/18/18
+ * Holds all entity manager functionality to include the queries that return back to the 
+ * StartProgram for user accessibility.
+ */
+
+
 public class ListCredsHelper {
 
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("MovieTheaterMadness");
@@ -15,7 +23,7 @@ public class ListCredsHelper {
 		emfactory.close();
 	}
 
-	public void insertAccessCode(ListCreds lc){
+	public void insertAccessCode(ListCreds lc){		//  Correlates to the add credential function on admin panel.
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(lc);
@@ -23,7 +31,7 @@ public class ListCredsHelper {
 		em.close();
 	}
 
-	public void deleteAccessCode(ListCreds toDelete) {
+	public void deleteAccessCode(ListCreds toDelete) {	// Correlates to the delete credential function on the admin panel.
 		// TODO Auto-generated method stub
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
@@ -36,7 +44,7 @@ public class ListCredsHelper {
 		em.close();
 	}
 
-	public List<ListCreds> searchForAccessCodeByUsername(String usernameName) {
+	public List<ListCreds> searchForAccessCodeByUsername(String usernameName) {  // Correlates to the initial logon function that returns the specific role a user has.
 		// TODO Auto-generated method stub
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
@@ -83,7 +91,7 @@ public class ListCredsHelper {
 	}
 
 	
-	public List<ListCreds> showAllItems(){
+	public List<ListCreds> showAllItems(){    // Correlates to the list credential function on the admin panel.
 
 		EntityManager em = emfactory.createEntityManager();
 
@@ -97,9 +105,7 @@ public class ListCredsHelper {
 
 	}
 
-
-
-	public void updateAccessCode(ListCreds toEdit) {
+	public void updateAccessCode(ListCreds toEdit) {   // Correlates to the update credential function on the admin panel.
 
 		// TODO Auto-generated method stub
 
