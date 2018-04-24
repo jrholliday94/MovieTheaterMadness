@@ -27,7 +27,7 @@ public class ConcessionsPanel extends JPanel {
 	// Below should match persistence.xml
 
 	final private String databaseUserName = "root";
-	final private String databasePassword = "people46";
+	final private String databasePassword = "";
 
 	private JTextField quantityPopcorn;
 	private JTextField quantityMikeAndIkes;
