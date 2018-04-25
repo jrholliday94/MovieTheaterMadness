@@ -26,5 +26,7 @@
 	<classpathentry kind="lib" path="C:/Users/jntfa/.m2/repository/org/eclipse/persistence/eclipselink/2.5.0/eclipselink-2.5.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/jntfa/.m2/repository/org/eclipse/persistence/commonj.sdo/2.1.1/commonj.sdo-2.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/jntfa/.m2/repository/org/eclipse/persistence/javax.persistence/2.1.1/javax.persistence-2.1.1.jar"/>
+	<classpathentry kind="lib" path="Giftcard/Giftcard.jar"/>
+	<classpathentry kind="lib" path="MovieTheater/src/TransactionLog/TransactionLog.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

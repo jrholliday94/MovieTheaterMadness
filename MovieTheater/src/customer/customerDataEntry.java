@@ -27,8 +27,8 @@ public class customerDataEntry extends JPanel {
 	private JTextField customerAge;
 
 	// Below should match persistence.xml
-	final private String databaseUserName = "root";
-	final private String databasePassword = "";
+ 	final private String databaseUserName = "root";
+  	final private String databasePassword = "PIglet01!";
 
 	/**
 	 * Create the panel.
@@ -121,8 +121,8 @@ public class customerDataEntry extends JPanel {
 					// create our mysql database connection
 
 					//
-					String myDriver = "org.gjt.mm.mysql.Driver";
-					String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
+					String myDriver = "com.mysql.jdbc.Driver";
+					String myUrl = "jdbc:mysql://localhost:3306/movie_theater_madness";
 					Class.forName(myDriver);
 					Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
