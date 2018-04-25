@@ -28,7 +28,7 @@ public class customerDataEntry extends JPanel {
 
 	// Below should match persistence.xml
  	final private String databaseUserName = "root";
-  	final private String databasePassword = "PIglet01!";
+  	final private String databasePassword = " ";
 
 	/**
 	 * Create the panel.
