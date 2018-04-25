@@ -235,7 +235,7 @@ public class customerDataEntry extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Open concessions screen
-				JFrame frame = new JFrame("Input customer information");
+				JFrame frame = new JFrame("Input concessions information");
 				JPanel panel = new ConcessionsPanel();
 
 				frame.add(panel);
