@@ -5,6 +5,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import org.eclipse.persistence.sessions.Session;
+
+import javax.persistence.EntityManager;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -24,8 +28,14 @@ public class ConcessionsPanel extends JPanel {
 	final double LARGE_FOUNTAIN = 3.50;
 
 	// Below should match persistence.xml
+
+
 	final private String databaseUserName = "root";
+<<<<<<< HEAD
 	final private String databasePassword = "PIglet1!";
+=======
+	final private String databasePassword = "";
+>>>>>>> f37e5d239f29a287da5741518eb26d12fe183401
 
 	private JTextField quantityPopcorn;
 	private JTextField quantityMikeAndIkes;
@@ -68,7 +78,7 @@ public class ConcessionsPanel extends JPanel {
 
 		JLabel lblNewLabel_3 = new JLabel("Enter Quantities");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(148, 11, 86, 14);
+		lblNewLabel_3.setBounds(134, 11, 114, 14);
 		add(lblNewLabel_3);
 
 		JLabel lblPrices = new JLabel("Prices");
@@ -188,54 +198,33 @@ public class ConcessionsPanel extends JPanel {
 						Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
 						// select popcorn from database
-						String query = "SELECT quantity, item_price FROM concessions WHERE item_name LIKE popcorn";
+						String query = "SELECT item_price FROM concessions WHERE item_name LIKE popcorn";
 						Statement st = conn.createStatement();
 						ResultSet rs = st.executeQuery(query);
 
 						// iterate through the java resultset
 						while (rs.next()) {
-							int pc = Integer.parseInt(rs.getString("quantity"));
 							popcornPrice = Double.parseDouble(rs.getString("item_price"));
-							if (popcorn > pc) {
-								validTransaction = false;
-								System.out.println("Error");
-								String message = "Not enough popcorn in stock.";
-								JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
-							}
 						}
 
 						// select mike and ikes from database
-						query = "SELECT quantity, item_price FROM concessions WHERE item_name LIKE mikeandikes";
+						query = "SELECT item_price FROM concessions WHERE item_name LIKE mikeandikes";
 						st = conn.createStatement();
 						rs = st.executeQuery(query);
 
 						// iterate through the java resultset
 						while (rs.next()) {
-							int mikenikes = Integer.parseInt(rs.getString("quantity"));
 							mikeAndIkesPrice = Double.parseDouble(rs.getString("item_price"));
-							if (mikeAndIkes > mikenikes) {
-								validTransaction = false;
-								System.out.println("Error");
-								String message = "Not enough Mike And Ikes in stock.";
-								JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
-							}
 						}
 
 						// select m and ms from database
-						query = "SELECT quantity, item_price FROM concessions WHERE item_name LIKE mandms";
+						query = "SELECT item_price FROM concessions WHERE item_name LIKE mandms";
 						st = conn.createStatement();
 						rs = st.executeQuery(query);
 
 						// iterate through the java resultset
 						while (rs.next()) {
-							int mnms = Integer.parseInt(rs.getString("quantity"));
 							mAndMsPrice = Double.parseDouble(rs.getString("item_price"));
-							if (mAndMs > mnms) {
-								validTransaction = false;
-								System.out.println("Error");
-								String message = "Not enough M&Ms in stock.";
-								JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
-							}
 						}
 
 						// Set subtotal prices
@@ -266,18 +255,6 @@ public class ConcessionsPanel extends JPanel {
 						medPrice.setText(untaxedMD);
 						largePrice.setText(untaxedLG);
 						lblTotal.setText(taxedTotal);
-
-						if (validTransaction) {
-							
-							//Update popcorn quantities
-							query = "update quantity FROM concessions WHERE item_name LIKE popcorn";
-							st = conn.createStatement();
-							rs = st.executeQuery(query);
-							
-							//Update Mike and ikes
-							
-
-						}
 
 						st.close();
 					} catch (Exception e) {
