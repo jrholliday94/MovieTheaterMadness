@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+
 import controller.ListCredsHelper;
 import customer.CustInputDriver;
 import model.ListCreds;
+import patternsandtrends.PatternsDriver;
 
 /*
  * Joe Fazio
@@ -223,7 +225,7 @@ public class StartProgram {
 		 	loginButton.addActionListener(new ActionListener() {
 		 	@Override
 		 	public void actionPerformed(ActionEvent e) {
-		 		System.out.println("login button pressed");			
+		 	//	System.out.println("login button pressed");			
 			//		panel.setVisible(false);
     	  		char[] password = passwordText.getPassword();
 		      	String passwordString = new String(password);
@@ -254,7 +256,10 @@ public class StartProgram {
 			       	    String emprole = "EMPLOYEE"; 
 				     	String mgrrole = "MANAGER";
 				    	String admrole = "ADMIN";
-				    					    	
+				     	String conrole = "CONCESSION";
+					    String gcdrole = "GIFTCARD";
+					    String logrole = "LOGGING";
+			    					    	
 				    	
 				    	/*
 				    	 * Depending on the role the user has, this method will call the
@@ -263,18 +268,24 @@ public class StartProgram {
 				    	if(role.equals(emprole))
 				    		CustInputDriver.main(null);
 		      		  	if(role.equals(mgrrole))
-			      		    System.out.println("Hey its a  MANAGER ROLE!!!");
-				    	if(role.equals(admrole))
+		      		  		PatternsDriver.main(null);
+					    	if(role.equals(admrole))
 				    		runMenu();				//  This calls the admin panel which allows more roles as well
 				    								//  as usernames and passwords to be entered.
-					}
+					    	if(role.equals(conrole))
+					    		runMenu();
+						    if(role.equals(gcdrole))
+						    	giftcard.GC.main(null);
+						    if(role.equals(logrole))
+						    	transactionlog.TransactionLog.main(null);
+
+	 			    }
 				 }
 			}
 		
 		
 
 		private static void viewTheList() {			//  Creates a list of all the credentials specified.
-			// TODO Auto-generated method stub
 			List<ListCreds> allItems = lch.showAllItems();
 			for(ListCreds l : allItems){
 				System.out.println(l.returnAccessCodeDetails());

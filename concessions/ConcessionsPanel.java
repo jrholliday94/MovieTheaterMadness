@@ -31,7 +31,11 @@ public class ConcessionsPanel extends JPanel {
 
 
 	final private String databaseUserName = "root";
+<<<<<<< HEAD
+	final private String databasePassword = "PIglet1!";
+=======
 	final private String databasePassword = "";
+>>>>>>> f37e5d239f29a287da5741518eb26d12fe183401
 
 	private JTextField quantityPopcorn;
 	private JTextField quantityMikeAndIkes;

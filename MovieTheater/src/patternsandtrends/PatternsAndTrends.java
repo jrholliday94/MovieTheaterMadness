@@ -22,7 +22,7 @@ public class PatternsAndTrends {
 			System.out.println("1: Black Panther");
 			System.out.println("2: I Feel Pretty");
 			System.out.println("3: Avengers");
-			System.out.println("4: The Nootebook");
+			System.out.println("4: The Notebook");
 			System.out.println("5: Exit");
 			System.out.print("Your selection: ");
 			int selection = in.nextInt();
@@ -37,7 +37,7 @@ public class PatternsAndTrends {
 				movie = "Avengers";
 				keepGoing = false;
 			} else if (selection == 4) {
-				movie = "The Nootebook";
+				movie = "The Notebook";
 				keepGoing = false;
 			} else {
 				System.out.println("Exiting...");
