@@ -5,9 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-
-import org.eclipse.persistence.sessions.Session;
-
 import javax.persistence.EntityManager;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,7 +25,6 @@ public class ConcessionsPanel extends JPanel {
 	final double LARGE_FOUNTAIN = 3.50;
 
 	// Below should match persistence.xml
-
 
 	final private String databaseUserName = "root";
 	final private String databasePassword = "";
@@ -74,7 +70,7 @@ public class ConcessionsPanel extends JPanel {
 
 		JLabel lblNewLabel_3 = new JLabel("Enter Quantities");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(134, 11, 114, 14);
+		lblNewLabel_3.setBounds(148, 11, 86, 14);
 		add(lblNewLabel_3);
 
 		JLabel lblPrices = new JLabel("Prices");
