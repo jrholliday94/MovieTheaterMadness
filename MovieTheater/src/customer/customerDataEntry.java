@@ -7,9 +7,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import concessions.ConcessionsPanel;
+
 import java.awt.Choice;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
@@ -19,6 +23,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.event.ItemEvent;
 
+
+
 @SuppressWarnings("serial")
 public class customerDataEntry extends JPanel {
 	final double TAX_RATE = 1.06;
@@ -27,8 +33,8 @@ public class customerDataEntry extends JPanel {
 	private JTextField customerAge;
 
 	// Below should match persistence.xml
- 	final private String databaseUserName = "root";
-  	final private String databasePassword = " ";
+	final private String databaseUserName = "root";
+	final private String databasePassword = "";
 
 	/**
 	 * Create the panel.
@@ -121,8 +127,8 @@ public class customerDataEntry extends JPanel {
 					// create our mysql database connection
 
 					//
-					String myDriver = "com.mysql.jdbc.Driver";
-					String myUrl = "jdbc:mysql://localhost:3306/movie_theater_madness";
+					String myDriver = "org.gjt.mm.mysql.Driver";
+					String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
 					Class.forName(myDriver);
 					Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
@@ -215,7 +221,7 @@ public class customerDataEntry extends JPanel {
 
 		// Accept button
 		JButton btnAccept = new JButton("Accept");
-		btnAccept.setBounds(164, 232, 86, 23);
+		btnAccept.setBounds(140, 232, 130, 23);
 		btnAccept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getInput(movieName.getSelectedItem(), movieTime.getSelectedItem(), paymentMethod.getSelectedItem(),
@@ -224,6 +230,23 @@ public class customerDataEntry extends JPanel {
 		});
 
 		add(btnAccept);
+		
+		JButton btnNewButton = new JButton("Concessions");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Open concessions screen
+				JFrame frame = new JFrame("Input concessions information");
+				JPanel panel = new ConcessionsPanel();
+
+				frame.add(panel);
+				frame.setSize(425, 300);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setVisible(true);
+				
+			}
+		});
+		btnNewButton.setBounds(140, 266, 130, 23);
+		add(btnNewButton);
 
 	}
 

@@ -1,18 +1,55 @@
 package customer;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+
+@Table(name = "customer")
 public class Customer {
 
 	final static double SALES_TAX = 1.06;
 
-	// declare fields
+	@Id
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Column(name = "fname")
 	String fname = "";
+
+	@Column(name = "lname")
 	String lname = "";
+
+	@Column(name = "age")
 	int age = 0;
+
+	@Column(name = "movie_name")
 	String movieName = "";
+
+	@Column(name = "movie_time")
 	String movieTime = "";
+
+	@Column(name = "movie_price")
 	double price = 0.0;
+
+	@Column(name = "payment_method")
 	String payMethod = "";
+
+	@Column(name = "transaction_total")
 	double total;
+
+	@Column(name = "order_id")
+	int order_id = 0;
+
+	@Column(name = "gc_bal")
+	int gc_bal = 0;
+
+	@Column(name = "gc_id")
+	int gc_id = 0;
 
 	/**
 	 * @param fname
@@ -33,6 +70,9 @@ public class Customer {
 		this.payMethod = payMethod;
 		this.price = price;
 		this.total = setTotal();
+		this.order_id = 0;
+		this.gc_bal = 0;
+		this.gc_id = 0;
 	}
 
 	// getters and setters
