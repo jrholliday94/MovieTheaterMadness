@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-
+import concessions.ConcessionsPanel;
 import controller.ListCredsHelper;
 import customer.CustInputDriver;
 import model.ListCreds;
@@ -42,16 +42,6 @@ public class StartProgram {
 		static ListCredsHelper lch = new ListCredsHelper();
 		public static void runMenu() {
 			boolean goAgain = true;
-			
-			JFrame frame = new JFrame("Admin Console");
-			frame.setSize(300, 150);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-			JPanel panel = new JPanel();
-			frame.add(panel);
-			placeComponents(panel);
-
-			frame.setVisible(true);
 			
 			System.out.println("--- Admin Rights Menu ---");
 
@@ -93,7 +83,7 @@ public class StartProgram {
 			String username = in.nextLine();
 			System.out.print("Enter a password: ");
 			String accesscode = in.nextLine();
-			System.out.print("Enter a role (ADMIN, EMPLOYEE or MANAGER): ");
+			System.out.print("Enter a role (ADMIN, EMPLOYEE, CONCESSION, GIFTCARD, LOGADMIN or MANAGER): ");
 			String role = in.nextLine();
 			ListCreds toAdd = new ListCreds(username, accesscode, role);
 			lch.insertAccessCode(toAdd);
@@ -173,7 +163,7 @@ public class StartProgram {
 		 * 
 		 */
 
-		private static void runLoginView(int iteration) {
+		public static void runLoginView(int iteration) {
 			// TODO Auto-generated method stub
 			if (iteration == 1) {	// 1 means first time program is invoked.  We only want to create the signon frame once per session.
 			JFrame frame = new JFrame("Movie Madness!!!");
@@ -256,9 +246,8 @@ public class StartProgram {
 			       	    String emprole = "EMPLOYEE"; 
 				     	String mgrrole = "MANAGER";
 				    	String admrole = "ADMIN";
-				     	String conrole = "CONCESSION";
-					    String gcdrole = "GIFTCARD";
-					    String logrole = "LOGGING";
+				     	String gcdrole = "GIFTCARD";
+					    String logrole = "LOGADMIN";
 			    					    	
 				    	
 				    	/*
@@ -272,12 +261,10 @@ public class StartProgram {
 					    	if(role.equals(admrole))
 				    		runMenu();				//  This calls the admin panel which allows more roles as well
 				    								//  as usernames and passwords to be entered.
-					    	if(role.equals(conrole))
-					    		runMenu();
-						    if(role.equals(gcdrole))
-						    	giftcard.GC.main(null);
+					    	if(role.equals(gcdrole))
+						    	Giftcard.GC.main(null);
 						    if(role.equals(logrole))
-						    	transactionlog.TransactionLog.main(null);
+						    	TransactionLog.TransactionLog.main(null);
 
 	 			    }
 				 }

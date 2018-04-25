@@ -47,8 +47,8 @@ public class PatternsAndTrends {
 
 		try {
 			// TODO MAKE THESE CONNECT TO OUR DATABASE
-			String myDriver = "org.gjt.mm.mysql.Driver";
-			String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
+			String myDriver = "com.mysql.jdbc.Driver";
+			String myUrl = "jdbc:mysql://localhost:3306/movie_theater_madness";
 			Class.forName(myDriver);
 			Connection conn = DriverManager.getConnection(myUrl, "root", "");
 			String query = "SELECT fname, lname FROM customer WHERE movie_name LIKE " + "\"" + movie + "\"";
@@ -67,7 +67,7 @@ public class PatternsAndTrends {
 			System.err.println("Got an exception! ");
 			System.err.println(e.getMessage());
 		}
-
+	
 		in.close();
 	}
 }

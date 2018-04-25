@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.persistence.EntityManager;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -184,7 +183,7 @@ public class ConcessionsPanel extends JPanel {
 					boolean validTransaction = true;
 					try {
 						// create our mysql database connection
-						String myDriver = "org.gjt.mm.mysql.Driver";
+						String myDriver = "com.mysql.jdbc.Driver";
 						String myUrl = "jdbc:mysql://localhost/movie_theater_madness";
 						Class.forName(myDriver);
 						Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
