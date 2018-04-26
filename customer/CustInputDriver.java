@@ -10,7 +10,7 @@ public class CustInputDriver {
 		JPanel panel = new customerDataEntry();
 
 		frame.add(panel);
-		frame.setSize(350, 320);
+		frame.setSize(350, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 
