@@ -189,7 +189,7 @@ public class ConcessionsPanel extends JPanel {
 						Connection conn = DriverManager.getConnection(myUrl, databaseUserName, databasePassword);
 
 						// select popcorn from database
-						String query = "SELECT item_price FROM concessions WHERE item_name LIKE popcorn";
+						String query = "SELECT item_price FROM concessions WHERE item_name LIKE \"popcorn\"";
 						Statement st = conn.createStatement();
 						ResultSet rs = st.executeQuery(query);
 
@@ -199,7 +199,7 @@ public class ConcessionsPanel extends JPanel {
 						}
 
 						// select mike and ikes from database
-						query = "SELECT item_price FROM concessions WHERE item_name LIKE mikeandikes";
+						query = "SELECT item_price FROM concessions WHERE item_name LIKE \"mikeandikes\"";
 						st = conn.createStatement();
 						rs = st.executeQuery(query);
 
@@ -209,7 +209,7 @@ public class ConcessionsPanel extends JPanel {
 						}
 
 						// select m and ms from database
-						query = "SELECT item_price FROM concessions WHERE item_name LIKE mandms";
+						query = "SELECT item_price FROM concessions WHERE item_name LIKE \"mandms\"";
 						st = conn.createStatement();
 						rs = st.executeQuery(query);
 
